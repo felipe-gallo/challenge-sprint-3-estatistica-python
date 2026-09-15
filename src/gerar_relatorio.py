@@ -379,7 +379,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("4. Modelagem com Regressão Linear", estilos["h1"]),
             Paragraph(
-                "Foi ajustada uma Regressão Linear Simples pelo método dos mínimos quadrados. A variável dependente é o gasto familiar e a variável explicativa é a renda familiar. O modelo assume a forma gasto = β₀ + β₁ × renda + erro.",
+                "Foi ajustada uma Regressão Linear Simples pelo método dos mínimos quadrados. A variável dependente é o gasto familiar e a variável explicativa é a renda familiar. O modelo assume a forma gasto = intercepto + coeficiente × renda + erro.",
                 estilos["corpo"],
             ),
             Paragraph("Código utilizado", estilos["h2"]),
@@ -396,8 +396,8 @@ def gerar_relatorio(destino: Path) -> None:
             tabela_resultados(
                 [
                     ["Parâmetro ou métrica", "Estimativa"],
-                    ["Intercepto (β₀)", f"{regressao['intercepto']:.4f}"],
-                    ["Coeficiente da renda (β₁)", f"{regressao['coeficiente_angular']:.4f}"],
+                    ["Intercepto", f"{regressao['intercepto']:.4f}"],
+                    ["Coeficiente da renda", f"{regressao['coeficiente_angular']:.4f}"],
                     ["R²", f"{regressao['r_quadrado']:.4f}"],
                     ["RMSE", moeda(regressao["rmse"])],
                 ],
@@ -452,7 +452,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("6. Execução no Google Colab", estilos["h1"]),
             Paragraph(
-                "O notebook `challenge_sprint_3.ipynb` foi organizado em células sequenciais. Para executar a análise no Colab, faça upload do notebook, execute todas as células e, quando solicitado, selecione o arquivo `dados_familias.csv`. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
+                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, faça upload do notebook, execute todas as células e, quando solicitado, selecione o arquivo dados_familias.csv. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
                 estilos["corpo"],
             ),
             Paragraph("Bibliotecas", estilos["h2"]),
