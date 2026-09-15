@@ -153,7 +153,8 @@ def gerar_grafico_regressao(
     y = dados[COLUNA_GASTO].to_numpy()
     ordem = np.argsort(x)
     x_ordenado = x[ordem]
-    y_previsto = modelo.predict(x_ordenado.reshape(-1, 1))
+    x_para_previsao = pd.DataFrame({COLUNA_RENDA: x_ordenado})
+    y_previsto = modelo.predict(x_para_previsao)
 
     fig, ax = plt.subplots(figsize=(10, 5.8))
     ax.scatter(x, y, color="#5CB8B2", edgecolor="white", s=58, label="Famílias observadas")
@@ -232,4 +233,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
