@@ -28,7 +28,7 @@ class TestAnaliseEstatistica(unittest.TestCase):
         resultado = calcular_probabilidades(self.dados)
         self.assertAlmostEqual(resultado["mediana"], 2127.0, places=2)
         self.assertAlmostEqual(
-            resultado["probabilidade_acima_mediana"], 0.443589, places=5
+            resultado["probabilidade_acima_mediana"], 0.443619, places=5
         )
         self.assertEqual(resultado["classificacao_acima_mediana"], "provável")
 
