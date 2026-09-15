@@ -4,7 +4,14 @@ Projeto acadêmico desenvolvido para a Challenge Sprint 3 do 2º semestre. A ent
 
 ## Integrantes
 
-> **Pendente:** substituir este aviso pelos nomes completos e números de matrícula de todos os integrantes antes da entrega.
+| Nome completo | RM |
+| --- | ---: |
+| Arthur Maziviero Faria | 573928 |
+| Jun Uehara | 570537 |
+| Felipe de Souza Gallo | 569680 |
+| Roberson Reguero Luiz Junior | 573031 |
+| Tommaso C. Nagliatti | 572147 |
+| Matheus Martins Lacerda | 570843 |
 
 ## Objetivos
 
