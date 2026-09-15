@@ -32,6 +32,14 @@ COR_SECUNDARIA = colors.HexColor("#5CB8B2")
 COR_DESTAQUE = colors.HexColor("#C33C54")
 COR_TEXTO = colors.HexColor("#25313C")
 COR_CLARA = colors.HexColor("#EAF2F8")
+INTEGRANTES = [
+    ("Arthur Maziviero Faria", "573928"),
+    ("Jun Uehara", "570537"),
+    ("Felipe de Souza Gallo", "569680"),
+    ("Roberson Reguero Luiz Junior", "573031"),
+    ("Tommaso C. Nagliatti", "572147"),
+    ("Matheus Martins Lacerda", "570843"),
+]
 
 
 def moeda(valor: float) -> str:
@@ -196,7 +204,7 @@ def gerar_relatorio(destino: Path) -> None:
         topMargin=1.8 * cm,
         bottomMargin=1.8 * cm,
         title="Challenge Sprint 3 - Estatística com Python",
-        author="Grupo - dados pendentes",
+        author=", ".join(nome for nome, _ in INTEGRANTES),
         subject="Distribuição Normal e Regressão Linear",
     )
     documento.fonte_rodape = fonte
@@ -213,13 +221,18 @@ def gerar_relatorio(destino: Path) -> None:
                 "Distribuição Normal, probabilidades e modelagem com Regressão Linear",
                 estilos["subcapa"],
             ),
-            Spacer(1, 2.2 * cm),
+            Spacer(1, 1.5 * cm),
             Table(
                 [
                     ["SEMESTRE", "2º semestre"],
                     ["AMBIENTE", "Google Colab / Python"],
                     ["BASE", "Renda e gasto de 50 famílias"],
-                    ["INTEGRANTES", "PREENCHER NOMES COMPLETOS E MATRÍCULAS"],
+                    ["INTEGRANTES", f"{INTEGRANTES[0][0]} - RM {INTEGRANTES[0][1]}"],
+                    ["", f"{INTEGRANTES[1][0]} - RM {INTEGRANTES[1][1]}"],
+                    ["", f"{INTEGRANTES[2][0]} - RM {INTEGRANTES[2][1]}"],
+                    ["", f"{INTEGRANTES[3][0]} - RM {INTEGRANTES[3][1]}"],
+                    ["", f"{INTEGRANTES[4][0]} - RM {INTEGRANTES[4][1]}"],
+                    ["", f"{INTEGRANTES[5][0]} - RM {INTEGRANTES[5][1]}"],
                 ],
                 colWidths=[4.0 * cm, 11.4 * cm],
                 style=TableStyle(
@@ -234,7 +247,7 @@ def gerar_relatorio(destino: Path) -> None:
                     ]
                 ),
             ),
-            Spacer(1, 2.4 * cm),
+            Spacer(1, 1.2 * cm),
             Paragraph("Relatório técnico", estilos["subcapa"]),
             Paragraph("2026", estilos["subcapa"]),
             PageBreak(),
