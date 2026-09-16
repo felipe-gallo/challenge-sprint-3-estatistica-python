@@ -156,6 +156,15 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             alignment=TA_CENTER,
             spaceAfter=5,
         ),
+        "link_capa": ParagraphStyle(
+            "LinkCapa",
+            parent=estilos_base["Normal"],
+            fontName=fonte,
+            fontSize=8.5,
+            leading=12,
+            textColor=COR_PRIMARIA,
+            alignment=TA_CENTER,
+        ),
     }
 
 
@@ -224,6 +233,11 @@ def gerar_relatorio(destino: Path) -> None:
                 Paragraph(f"{nome} - RM {rm}", estilos["integrante"])
                 for nome, rm in INTEGRANTES
             ],
+            Spacer(1, 2.2 * cm),
+            Paragraph(
+                'Link: <link href="https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python">https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python</link>',
+                estilos["link_capa"],
+            ),
             PageBreak(),
         ]
     )
