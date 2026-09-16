@@ -6,7 +6,7 @@ import html
 from pathlib import Path
 
 from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY, TA_LEFT
+from reportlab.lib.enums import TA_CENTER, TA_JUSTIFY
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.lib.units import cm
@@ -66,11 +66,11 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             "Capa",
             parent=estilos_base["Title"],
             fontName=fonte_negrito,
-            fontSize=26,
-            leading=31,
+            fontSize=24,
+            leading=29,
             textColor=COR_PRIMARIA,
-            alignment=TA_LEFT,
-            spaceAfter=18,
+            alignment=TA_CENTER,
+            spaceAfter=10,
         ),
         "subcapa": ParagraphStyle(
             "Subcapa",
@@ -79,6 +79,7 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             fontSize=13,
             leading=19,
             textColor=COR_TEXTO,
+            alignment=TA_CENTER,
         ),
         "h1": ParagraphStyle(
             "H1Projeto",
@@ -135,13 +136,25 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             spaceBefore=4,
             spaceAfter=9,
         ),
-        "rodape": ParagraphStyle(
-            "RodapeProjeto",
+        "integrantes_titulo": ParagraphStyle(
+            "IntegrantesTitulo",
+            parent=estilos_base["Normal"],
+            fontName=fonte_negrito,
+            fontSize=14,
+            leading=18,
+            textColor=COR_PRIMARIA,
+            alignment=TA_CENTER,
+            spaceAfter=12,
+        ),
+        "integrante": ParagraphStyle(
+            "Integrante",
             parent=estilos_base["Normal"],
             fontName=fonte,
-            fontSize=8,
-            textColor=colors.HexColor("#687986"),
+            fontSize=11,
+            leading=18,
+            textColor=COR_TEXTO,
             alignment=TA_CENTER,
+            spaceAfter=5,
         ),
     }
 
@@ -176,18 +189,6 @@ def tabela_resultados(linhas: list[list[str]], fonte: str, fonte_negrito: str) -
     return tabela
 
 
-def desenhar_pagina(canvas, documento) -> None:
-    canvas.saveState()
-    largura, altura = A4
-    canvas.setStrokeColor(colors.HexColor("#D6E1EA"))
-    canvas.line(2 * cm, 1.45 * cm, largura - 2 * cm, 1.45 * cm)
-    canvas.setFillColor(colors.HexColor("#687986"))
-    canvas.setFont(documento.fonte_rodape, 8)
-    canvas.drawString(2 * cm, 1.0 * cm, "Challenge Sprint 3 - Estatística com Python")
-    canvas.drawRightString(largura - 2 * cm, 1.0 * cm, f"Página {documento.page}")
-    canvas.restoreState()
-
-
 def gerar_relatorio(destino: Path) -> None:
     fonte, fonte_negrito = registrar_fontes()
     estilos = criar_estilos(fonte, fonte_negrito)
@@ -203,53 +204,26 @@ def gerar_relatorio(destino: Path) -> None:
         leftMargin=2 * cm,
         topMargin=1.8 * cm,
         bottomMargin=1.8 * cm,
-        title="Challenge Sprint 3 - Estatística com Python",
+        title="Sprint 3 - Modelagem Linear para Aprendizado de Máquina",
         author=", ".join(nome for nome, _ in INTEGRANTES),
         subject="Distribuição Normal e Regressão Linear",
     )
-    documento.fonte_rodape = fonte
     historia = []
 
     # Capa
     historia.extend(
         [
-            Spacer(1, 3.0 * cm),
-            Paragraph("CHALLENGE SPRINT 3", estilos["subcapa"]),
-            Spacer(1, 0.25 * cm),
-            Paragraph("Estatística com Python", estilos["capa"]),
-            Paragraph(
-                "Distribuição Normal, probabilidades e modelagem com Regressão Linear",
-                estilos["subcapa"],
-            ),
-            Spacer(1, 1.5 * cm),
-            Table(
-                [
-                    ["SEMESTRE", "2º semestre"],
-                    ["AMBIENTE", "Google Colab / Python"],
-                    ["BASE", "Renda e gasto de 50 famílias"],
-                    ["INTEGRANTES", f"{INTEGRANTES[0][0]} - RM {INTEGRANTES[0][1]}"],
-                    ["", f"{INTEGRANTES[1][0]} - RM {INTEGRANTES[1][1]}"],
-                    ["", f"{INTEGRANTES[2][0]} - RM {INTEGRANTES[2][1]}"],
-                    ["", f"{INTEGRANTES[3][0]} - RM {INTEGRANTES[3][1]}"],
-                    ["", f"{INTEGRANTES[4][0]} - RM {INTEGRANTES[4][1]}"],
-                    ["", f"{INTEGRANTES[5][0]} - RM {INTEGRANTES[5][1]}"],
-                ],
-                colWidths=[4.0 * cm, 11.4 * cm],
-                style=TableStyle(
-                    [
-                        ("FONTNAME", (0, 0), (0, -1), fonte_negrito),
-                        ("FONTNAME", (1, 0), (1, -1), fonte),
-                        ("FONTSIZE", (0, 0), (-1, -1), 10),
-                        ("TEXTCOLOR", (0, 0), (0, -1), COR_PRIMARIA),
-                        ("LINEBELOW", (0, 0), (-1, -1), 0.45, colors.HexColor("#D6E1EA")),
-                        ("TOPPADDING", (0, 0), (-1, -1), 9),
-                        ("BOTTOMPADDING", (0, 0), (-1, -1), 9),
-                    ]
-                ),
-            ),
-            Spacer(1, 1.2 * cm),
-            Paragraph("Relatório técnico", estilos["subcapa"]),
-            Paragraph("2026", estilos["subcapa"]),
+            Spacer(1, 2.5 * cm),
+            Paragraph("SPRINT 3", estilos["subcapa"]),
+            Spacer(1, 0.3 * cm),
+            Paragraph("Modelagem Linear para Aprendizado de Máquina", estilos["capa"]),
+            Paragraph("Estatística com Python", estilos["subcapa"]),
+            Spacer(1, 2.2 * cm),
+            Paragraph("Integrantes", estilos["integrantes_titulo"]),
+            *[
+                Paragraph(f"{nome} - RM {rm}", estilos["integrante"])
+                for nome, rm in INTEGRANTES
+            ],
             PageBreak(),
         ]
     )
@@ -499,11 +473,7 @@ def gerar_relatorio(destino: Path) -> None:
         ]
     )
 
-    documento.build(
-        historia,
-        onFirstPage=desenhar_pagina,
-        onLaterPages=desenhar_pagina,
-    )
+    documento.build(historia)
 
 
 if __name__ == "__main__":
