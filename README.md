@@ -33,7 +33,7 @@ Os principais resultados foram:
 - `dados/dados_familias.csv`: base utilizada;
 - `src/analise_estatistica.py`: código em Python;
 - `notebooks/challenge_sprint_3.ipynb`: versão para o Google Colab;
-- `relatorio/Sprint_3_Modelagem_Linear.pdf`: relatório final;
+- `relatorio/Relatório Sprint 3 Modelagem Linear.pdf`: relatório final;
 - `resultados/`: gráficos gerados pelo código.
 
 ## Como executar no Colab
