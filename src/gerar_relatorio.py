@@ -485,7 +485,7 @@ def gerar_relatorio(destino: Path) -> None:
                     ["dados_familias.csv", "Base de dados obrigatória em formato CSV."],
                     ["analise_estatistica.py", "Código Python obrigatório com a análise completa."],
                     ["challenge_sprint_3.ipynb", "Notebook adicional pronto para o Google Colab."],
-                    ["relatorio_challenge_sprint_3.pdf", "Relatório com códigos, gráficos e interpretações."],
+                    ["Sprint_3_Modelagem_Linear.pdf", "Relatório com códigos, gráficos e interpretações."],
                 ],
                 fonte,
                 fonte_negrito,
@@ -507,4 +507,4 @@ def gerar_relatorio(destino: Path) -> None:
 
 
 if __name__ == "__main__":
-    gerar_relatorio(RAIZ / "relatorio" / "relatorio_challenge_sprint_3.pdf")
+    gerar_relatorio(RAIZ / "relatorio" / "Sprint_3_Modelagem_Linear.pdf")

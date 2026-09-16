@@ -44,7 +44,7 @@ As classificações seguem as faixas definidas no projeto: raro (até 5%), pouco
 │   ├── distribuicao_normal.png
 │   └── regressao_linear.png
 ├── relatorio/
-│   └── relatorio_challenge_sprint_3.pdf
+│   └── Sprint_3_Modelagem_Linear.pdf
 ├── tests/
 │   └── test_analise_estatistica.py
 ├── requirements.txt
@@ -78,7 +78,7 @@ python -m unittest discover -s tests -v
 
 ## Arquivos para envio no Portal
 
-- `relatorio/relatorio_challenge_sprint_3.pdf`;
+- `relatorio/Sprint_3_Modelagem_Linear.pdf`;
 - `dados/dados_familias.csv`;
 - `src/analise_estatistica.py`.
 
