@@ -496,15 +496,6 @@ def gerar_relatorio(destino: Path) -> None:
                 "A análise respondeu aos três itens quantitativos do desafio. A chance de o gasto superar a mediana foi classificada como provável; a chance de permanecer a até dois desvios padrão da média foi classificada como quase certa; e a renda explicou aproximadamente 96,99% da variação dos gastos no modelo linear. Os resultados mostram uma aplicação integrada de probabilidade, estatística descritiva e aprendizado supervisionado.",
                 estilos["corpo"],
             ),
-            Paragraph("Referências", estilos["h2"]),
-            Paragraph(
-                "ALURA. <i>Cálculo da probabilidade da distribuição normal com quaisquer valores de média e desvio padrão</i>. Disponível em: https://cursos.alura.com.br/forum/topico-calculo-da-probabilidade-da-distribuicao-normal-com-quaisquer-valores-de-media-e-desvio-padrao-195298. Acesso em: 15 set. 2026.",
-                estilos["nota"],
-            ),
-            Paragraph(
-                "ALURA. <i>Estatística com Python: Correlação e Regressão</i>. Disponível em: https://www.alura.com.br/conteudo/estatistica-correlacao-regressao. Acesso em: 15 set. 2026.",
-                estilos["nota"],
-            ),
         ]
     )
 
