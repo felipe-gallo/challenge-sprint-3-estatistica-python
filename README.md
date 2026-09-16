@@ -1,10 +1,12 @@
-# Challenge Sprint 3 - Estatística com Python
+# Sprint 3 - Modelagem Linear
 
-Projeto acadêmico desenvolvido para a Challenge Sprint 3 do 2º semestre. A entrega analisa uma variável aleatória sob a hipótese de Distribuição Normal e aplica Regressão Linear Simples em Python.
+Trabalho da Sprint 3 da matéria **Modelagem Linear para Aprendizado de Máquina**.
+
+Usamos uma base com dados de renda e gasto de 50 famílias. A partir dela, calculamos probabilidades usando a Distribuição Normal e montamos uma regressão linear para analisar a relação entre renda e gasto.
 
 ## Integrantes
 
-| Nome completo | RM |
+| Nome | RM |
 | --- | ---: |
 | Arthur Maziviero Faria | 573928 |
 | Jun Uehara | 570537 |
@@ -13,78 +15,36 @@ Projeto acadêmico desenvolvido para a Challenge Sprint 3 do 2º semestre. A ent
 | Tommaso C. Nagliatti | 572147 |
 | Matheus Martins Lacerda | 570843 |
 
-## Objetivos
+## O que foi feito
 
-- calcular a probabilidade de o gasto familiar ficar acima da mediana;
-- calcular a probabilidade de o gasto familiar ficar no intervalo média ± 2 desvios padrão;
-- ajustar uma regressão linear entre renda familiar e gasto familiar;
-- apresentar código, gráfico, resultados e interpretações em um relatório PDF.
+- probabilidade de o gasto ficar acima da mediana;
+- probabilidade de o gasto ficar entre a média e dois desvios padrão;
+- regressão linear do gasto familiar em função da renda;
+- gráficos e interpretação dos resultados.
 
-## Resultados
+Os principais resultados foram:
 
-| Análise | Resultado | Classificação |
-| --- | ---: | --- |
-| Probabilidade de gasto acima da mediana | 44,36% | Provável |
-| Probabilidade no intervalo média ± 2s | 95,45% | Quase certo |
-| Regressão Linear | `gasto = 207,9033 + 0,2973 × renda` | R² = 0,9699 |
+- **44,36%** de probabilidade acima da mediana;
+- **95,45%** de probabilidade no intervalo média ± 2 desvios;
+- **R² de 0,9699** na regressão linear.
 
-As classificações seguem as faixas definidas no projeto: raro (até 5%), pouco provável (acima de 5% até 25%), provável (acima de 25% até 75%) e quase certo (acima de 75%).
+## Arquivos principais
 
-## Estrutura
+- `dados/dados_familias.csv`: base utilizada;
+- `src/analise_estatistica.py`: código em Python;
+- `notebooks/challenge_sprint_3.ipynb`: versão para o Google Colab;
+- `relatorio/Sprint_3_Modelagem_Linear.pdf`: relatório final;
+- `resultados/`: gráficos gerados pelo código.
 
-```text
-.
-├── dados/
-│   └── dados_familias.csv
-├── src/
-│   └── analise_estatistica.py
-├── notebooks/
-│   └── challenge_sprint_3.ipynb
-├── resultados/
-│   ├── distribuicao_normal.png
-│   └── regressao_linear.png
-├── relatorio/
-│   └── Sprint_3_Modelagem_Linear.pdf
-├── tests/
-│   └── test_analise_estatistica.py
-├── requirements.txt
-└── README.md
-```
+## Como executar no Colab
 
-## Execução no Google Colab
+1. Abra o arquivo `notebooks/challenge_sprint_3.ipynb` no Google Colab.
+2. Execute todas as células.
+3. Quando aparecer a opção de upload, selecione `dados/dados_familias.csv`.
 
-1. Acesse o [Google Colab](https://colab.research.google.com/).
-2. Selecione **Arquivo > Fazer upload de notebook**.
-3. Envie `notebooks/challenge_sprint_3.ipynb`.
-4. Selecione **Ambiente de execução > Executar tudo**.
-5. Quando solicitado, envie `dados/dados_familias.csv`.
-
-O notebook executa todos os cálculos, apresenta as interpretações e exibe os gráficos. O arquivo `src/analise_estatistica.py` contém a mesma análise em formato Python, conforme a exigência de entrega.
-
-## Execução do arquivo Python
+Também é possível executar o arquivo Python diretamente:
 
 ```bash
 pip install -r requirements.txt
 python src/analise_estatistica.py
 ```
-
-Os gráficos são gravados na pasta `resultados/`.
-
-## Testes
-
-```bash
-python -m unittest discover -s tests -v
-```
-
-## Arquivos para envio no Portal
-
-- `relatorio/Sprint_3_Modelagem_Linear.pdf`;
-- `dados/dados_familias.csv`;
-- `src/analise_estatistica.py`.
-
-O notebook `.ipynb` pode ser enviado como arquivo adicional se o Portal permitir. O enunciado determina que os arquivos sejam anexados diretamente, não apenas compartilhados por link.
-
-## Referências
-
-- [Cálculo da probabilidade da distribuição normal - Alura](https://cursos.alura.com.br/forum/topico-calculo-da-probabilidade-da-distribuicao-normal-com-quaisquer-valores-de-media-e-desvio-padrao-195298)
-- [Estatística com Python: Correlação e Regressão - Alura](https://www.alura.com.br/conteudo/estatistica-correlacao-regressao)
