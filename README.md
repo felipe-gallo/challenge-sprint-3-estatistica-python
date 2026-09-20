@@ -6,14 +6,7 @@ Usamos uma base com dados de renda e gasto de 50 famílias. A partir dela, calcu
 
 ## Integrantes
 
-| Nome | RM |
-| --- | ---: |
-| Arthur Maziviero Faria | 573928 |
-| Jun Uehara | 570537 |
-| Felipe de Souza Gallo | 569680 |
-| Roberson Reguero Luiz Junior | 573031 |
-| Tommaso C. Nagliatti | 572147 |
-| Matheus Martins Lacerda | 570843 |
+Consulte `integrantes.txt`.
 
 ## O que foi feito
 
@@ -38,13 +31,8 @@ Os principais resultados foram:
 
 ## Como executar no Colab
 
-1. Abra o arquivo `notebooks/challenge_sprint_3.ipynb` no Google Colab.
-2. Execute todas as células.
-3. Quando aparecer a opção de upload, selecione `dados/dados_familias.csv`.
+Abra `notebooks/challenge_sprint_3.ipynb` no Google Colab e selecione **Executar tudo**. A primeira célula obtém automaticamente os arquivos necessários do repositório, em uma versão fixa para reproduzir os resultados. É necessário acesso à internet. A última célula executa todos os testes do projeto e dos resultados do notebook.
 
-Também é possível executar o arquivo Python diretamente:
+Localmente, instale `requirements.txt` e execute o notebook na pasta do projeto.
 
-```bash
-pip install -r requirements.txt
-python src/analise_estatistica.py
-```
+O relatório preenchido está em `modelo.md`; o PDF está em `relatorio/`; os nomes e RMs estão em `integrantes.txt`.

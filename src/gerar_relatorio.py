@@ -32,14 +32,9 @@ COR_SECUNDARIA = colors.HexColor("#5CB8B2")
 COR_DESTAQUE = colors.HexColor("#C33C54")
 COR_TEXTO = colors.HexColor("#25313C")
 COR_CLARA = colors.HexColor("#EAF2F8")
-INTEGRANTES = [
-    ("Arthur Maziviero Faria", "573928"),
-    ("Jun Uehara", "570537"),
-    ("Felipe de Souza Gallo", "569680"),
-    ("Roberson Reguero Luiz Junior", "573031"),
-    ("Tommaso C. Nagliatti", "572147"),
-    ("Matheus Martins Lacerda", "570843"),
-]
+INTEGRANTES = [tuple(linha.rsplit(" - RM ", 1))
+               for linha in (RAIZ / "integrantes.txt").read_text(encoding="utf-8-sig").splitlines()
+               if linha.strip()]
 
 
 def moeda(valor: float) -> str:
@@ -453,7 +448,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("6. Execução no Google Colab", estilos["h1"]),
             Paragraph(
-                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, faça upload do notebook, execute todas as células e, quando solicitado, selecione o arquivo dados_familias.csv. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
+                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, abra o notebook e selecione Executar tudo. A primeira célula baixa automaticamente a base, o módulo Python e os testes de uma versão fixa do repositório, quando necessário. A última célula executa a suíte completa de testes do projeto e as verificações dos resultados do notebook. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
                 estilos["corpo"],
             ),
             Paragraph("Bibliotecas", estilos["h2"]),
@@ -487,7 +482,25 @@ def gerar_relatorio(destino: Path) -> None:
         ]
     )
 
+    historia.extend([
+        Paragraph("8. Validação automatizada", estilos["h1"]),
+        Paragraph("O notebook foi executado integralmente. Sua última célula executou os 5 testes existentes do projeto e 6 testes dos resultados do notebook, totalizando 11 testes aprovados, sem falhas. As verificações abrangem a base de 50 famílias, as estatísticas, as probabilidades, os limites de classificação, a regressão e a consistência com o módulo Python.", estilos["corpo"]),
+    ])
     documento.build(historia)
+    from capa_abnt import gerar_capa
+    from pypdf import PdfReader, PdfWriter
+    from io import BytesIO
+    frente = BytesIO()
+    gerar_capa(frente)
+    frente.seek(0)
+    corpo = PdfReader(BytesIO(destino.read_bytes()))
+    writer = PdfWriter()
+    for pagina in PdfReader(frente).pages:
+        writer.add_page(pagina)
+    for pagina in corpo.pages[1:]:
+        writer.add_page(pagina)
+    with destino.open('wb') as arquivo:
+        writer.write(arquivo)
 
 
 if __name__ == "__main__":
