@@ -1,38 +1,24 @@
 # Sprint 3 - Modelagem Linear
 
-Trabalho da Sprint 3 da matéria **Modelagem Linear para Aprendizado de Máquina**.
+ARTHUR MAZIVIERO FARIA - RM 573928  
+JUN UEHARA - RM 570537  
+FELIPE DE SOUZA GALLO - RM 569680  
+ROBERSON REGUERO LUIZ JUNIOR - RM 573031  
+TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147  
+MATHEUS MARTINS LACERDA - RM 570843
 
-Usamos uma base com dados de renda e gasto de 50 famílias. A partir dela, calculamos probabilidades usando a Distribuição Normal e montamos uma regressão linear para analisar a relação entre renda e gasto.
+## Entrega obrigatória
 
-## Integrantes
+Anexar diretamente no Portal o PDF em `relatorio/`, `dados/dados_familias.csv` e `src/analise_estatistica.py`. Consultar `REQUISITOS_ENTREGA.md` para a conferência completa. O repositório e seus links não substituem a entrega no Portal.
 
-Consulte `integrantes.txt`.
+## Execução no Colab
 
-## O que foi feito
+Envie o arquivo `.py` e o CSV e rode `%run analise_estatistica.py --arquivo dados_familias.csv`. O código imprime os resultados e gera dois gráficos em `resultados/`.
 
-- probabilidade de o gasto ficar acima da mediana;
-- probabilidade de o gasto ficar entre a média e dois desvios padrão;
-- regressão linear do gasto familiar em função da renda;
-- gráficos e interpretação dos resultados.
+Opcionalmente, abra `notebooks/challenge_sprint_3.ipynb`, selecione Executar tudo e envie o CSV quando solicitado. O notebook contém o código e os testes: não baixa código do GitHub. A última célula registra 16 testes aprovados em execução local.
 
-Os principais resultados foram:
+## Relatório e metodologia
 
-- **44,36%** de probabilidade acima da mediana;
-- **95,45%** de probabilidade no intervalo média ± 2 desvios;
-- **R² de 0,9699** na regressão linear.
+O relatório editável está em `modelo.md`. A base didática ajustada contém 50 famílias; `autores_trabalho` identifica o grupo e não entra nos cálculos. Resultados: 44,36% acima da mediana; 95,45% no intervalo média ± 2s; R² de 0,9699.
 
-## Arquivos principais
-
-- `dados/dados_familias.csv`: base utilizada;
-- `src/analise_estatistica.py`: código em Python;
-- `notebooks/challenge_sprint_3.ipynb`: versão para o Google Colab;
-- `relatorio/Relatório Sprint 3 Modelagem Linear.pdf`: relatório final;
-- `resultados/`: gráficos gerados pelo código.
-
-## Como executar no Colab
-
-Abra `notebooks/challenge_sprint_3.ipynb` no Google Colab e selecione **Executar tudo**. A primeira célula obtém automaticamente os arquivos necessários do repositório, em uma versão fixa para reproduzir os resultados. É necessário acesso à internet. A última célula executa todos os testes do projeto e dos resultados do notebook.
-
-Localmente, instale `requirements.txt` e execute o notebook na pasta do projeto.
-
-O relatório preenchido está em `modelo.md`; o PDF está em `relatorio/`; os nomes e RMs estão em `integrantes.txt`.
+A hipótese Normal segue a proposta. As faixas de classificação adotadas devem ser conferidas com a convenção usada em aula, pois o enunciado não define limites. Prazo e trecho final das orientações ainda precisam ser conferidos pelo grupo.

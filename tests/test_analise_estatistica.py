@@ -1,3 +1,10 @@
+# ARTHUR MAZIVIERO FARIA - RM 573928
+# JUN UEHARA - RM 570537
+# FELIPE DE SOUZA GALLO - RM 569680
+# ROBERSON REGUERO LUIZ JUNIOR - RM 573031
+# TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147
+# MATHEUS MARTINS LACERDA - RM 570843
+
 """Testes automatizados dos cálculos principais."""
 
 import sys
@@ -46,6 +53,49 @@ class TestAnaliseEstatistica(unittest.TestCase):
     def test_classificacao_rejeita_probabilidade_invalida(self):
         with self.assertRaises(ValueError):
             classificar_evento(1.1)
+
+
+class TestValidacaoEntrega(unittest.TestCase):
+    def test_autoria_no_csv(self):
+        dados = carregar_dados(RAIZ / 'dados/dados_familias.csv')
+        autores = (RAIZ / 'integrantes.txt').read_text(encoding='utf-8-sig').strip().splitlines()
+        for autor in autores:
+            self.assertTrue(dados['autores_trabalho'].str.contains(autor, regex=False).all())
+
+    def test_limites_classificacao(self):
+        for valor, esperado in [(0, 'raro'), (0.05, 'raro'), (0.25, 'pouco provável'),
+                                (0.75, 'provável'), (1, 'quase certo')]:
+            self.assertEqual(classificar_evento(valor), esperado)
+        for valor in [-1, 2, float('nan')]:
+            with self.assertRaises(ValueError):
+                classificar_evento(valor)
+
+    def test_bases_invalidas(self):
+        import tempfile
+        casos = ['renda_familiar,gasto_familiar\n1,2\n',
+                 'renda_familiar,outro\n1,2\n3,4\n',
+                 'renda_familiar,gasto_familiar\n1,\n3,4\n',
+                 'renda_familiar,gasto_familiar\n1,abc\n3,4\n',
+                 'renda_familiar,gasto_familiar\n1,inf\n3,4\n']
+        with tempfile.TemporaryDirectory() as pasta:
+            caminho = Path(pasta) / 'invalida.csv'
+            for conteudo in casos:
+                with self.subTest(conteudo=conteudo):
+                    caminho.write_text(conteudo, encoding='utf-8')
+                    with self.assertRaises(ValueError):
+                        carregar_dados(caminho)
+
+    def test_normal_sem_variacao(self):
+        dados = carregar_dados(RAIZ / 'dados/dados_familias.csv')
+        dados['gasto_familiar'] = 100
+        with self.assertRaises(ValueError):
+            calcular_probabilidades(dados)
+
+    def test_regressao_sem_variacao(self):
+        dados = carregar_dados(RAIZ / 'dados/dados_familias.csv')
+        dados['renda_familiar'] = 100
+        with self.assertRaises(ValueError):
+            ajustar_regressao(dados)
 
 
 if __name__ == "__main__":

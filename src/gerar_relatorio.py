@@ -1,3 +1,10 @@
+# ARTHUR MAZIVIERO FARIA - RM 573928
+# JUN UEHARA - RM 570537
+# FELIPE DE SOUZA GALLO - RM 569680
+# ROBERSON REGUERO LUIZ JUNIOR - RM 573031
+# TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147
+# MATHEUS MARTINS LACERDA - RM 570843
+
 """Gera o relatório PDF da Challenge Sprint 3."""
 
 from __future__ import annotations
@@ -214,29 +221,6 @@ def gerar_relatorio(destino: Path) -> None:
     )
     historia = []
 
-    # Capa
-    historia.extend(
-        [
-            Spacer(1, 2.5 * cm),
-            Paragraph("SPRINT 3", estilos["subcapa"]),
-            Spacer(1, 0.3 * cm),
-            Paragraph("Modelagem Linear para Aprendizado de Máquina", estilos["capa"]),
-            Paragraph("Estatística com Python", estilos["subcapa"]),
-            Spacer(1, 2.2 * cm),
-            Paragraph("Integrantes", estilos["integrantes_titulo"]),
-            *[
-                Paragraph(f"{nome} - RM {rm}", estilos["integrante"])
-                for nome, rm in INTEGRANTES
-            ],
-            Spacer(1, 2.2 * cm),
-            Paragraph(
-                'Link: <link href="https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python">https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python</link>',
-                estilos["link_capa"],
-            ),
-            PageBreak(),
-        ]
-    )
-
     # Visão geral
     historia.extend(
         [
@@ -260,7 +244,7 @@ def gerar_relatorio(destino: Path) -> None:
             Spacer(1, 0.35 * cm),
             Paragraph("Base de dados", estilos["h2"]),
             Paragraph(
-                "A base contém 50 famílias e duas variáveis monetárias: renda familiar e gasto familiar. Os valores reproduzem o conjunto didático apresentado no conteúdo de correlação e regressão da Alura indicado no enunciado. Um identificador foi acrescentado apenas para diferenciar os registros.",
+                "A base contém 50 famílias e duas variáveis monetárias: renda familiar e gasto familiar. Os valores reproduzem o conjunto didático apresentado no conteúdo de correlação e regressão da Alura indicado no enunciado. Um identificador foi acrescentado para diferenciar os registros, e a coluna autores_trabalho registra todos os nomes completos e RMs. Essas colunas não entram na análise. Trata-se da alternativa de nova base ajustada permitida no enunciado, sob a hipótese de normalidade exigida para os cálculos.",
                 estilos["corpo"],
             ),
             tabela_resultados(
@@ -269,13 +253,14 @@ def gerar_relatorio(destino: Path) -> None:
                     ["renda_familiar", "Renda total observada para cada família, em reais."],
                     ["gasto_familiar", "Gasto total observado para cada família, em reais."],
                     ["id_familia", "Identificador sequencial sem papel no modelo."],
+                    ["autores_trabalho", "Identificação do grupo; excluída dos cálculos."],
                 ],
                 fonte,
                 fonte_negrito,
             ),
             Paragraph("Critério de classificação dos eventos", estilos["h2"]),
             Paragraph(
-                "Foram adotadas faixas explícitas: raro para probabilidade de até 5%; pouco provável acima de 5% e até 25%; provável acima de 25% e até 75%; e quase certo acima de 75%.",
+                "Foram adotadas faixas explícitas: raro para probabilidade de até 5%; pouco provável acima de 5% e até 25%; provável acima de 25% e até 75%; e quase certo acima de 75%. O enunciado não define os limites numéricos dessas categorias; as faixas são uma convenção explícita adotada neste trabalho.",
                 estilos["corpo"],
             ),
             PageBreak(),
@@ -319,7 +304,7 @@ def gerar_relatorio(destino: Path) -> None:
                 "A probabilidade de um gasto selecionado ao acaso ultrapassar a mediana de R$ 2.127,00 é de aproximadamente <b>44,36%</b>. O evento é classificado como <b>provável</b>. O valor não precisa ser exatamente 50%: a mediana usada é a da amostra, enquanto a curva Normal é definida pela média e pelo desvio padrão estimados. Como média e mediana amostrais diferem, a área calculada também se afasta de 50%.",
                 estilos["corpo"],
             ),
-            Image(str(RAIZ / "resultados" / "distribuicao_normal.png"), width=16.3 * cm, height=8.9 * cm),
+            Image(str(RAIZ / "resultados" / "distribuicao_normal.png"), width=14.6 * cm, height=8.0 * cm),
             Paragraph("Figura 1 - Distribuição Normal ajustada ao gasto familiar.", estilos["nota"]),
             PageBreak(),
         ]
@@ -448,7 +433,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("6. Execução no Google Colab", estilos["h1"]),
             Paragraph(
-                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, abra o notebook e selecione Executar tudo. A primeira célula baixa automaticamente a base, o módulo Python e os testes de uma versão fixa do repositório, quando necessário. A última célula executa a suíte completa de testes do projeto e as verificações dos resultados do notebook. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
+                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, abra o notebook e selecione Executar tudo. Quando solicitado, envie o CSV entregue com o trabalho. O código e os testes estão incorporados no notebook e não dependem do GitHub. A última célula executa a suíte completa de testes do projeto e as verificações dos resultados do notebook. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
                 estilos["corpo"],
             ),
             Paragraph("Bibliotecas", estilos["h2"]),
@@ -467,8 +452,8 @@ def gerar_relatorio(destino: Path) -> None:
                     ["Arquivo", "Finalidade"],
                     ["dados_familias.csv", "Base de dados obrigatória em formato CSV."],
                     ["analise_estatistica.py", "Código Python obrigatório com a análise completa."],
-                    ["challenge_sprint_3.ipynb", "Notebook adicional pronto para o Google Colab."],
-                    ["Relatório Sprint 3 Modelagem Linear.pdf", "Relatório com códigos, gráficos e interpretações."],
+                    
+                    ["Relatorio_Sprint_3.pdf", "Relatório com códigos, gráficos e interpretações."],
                 ],
                 fonte,
                 fonte_negrito,
@@ -484,7 +469,21 @@ def gerar_relatorio(destino: Path) -> None:
 
     historia.extend([
         Paragraph("8. Validação automatizada", estilos["h1"]),
-        Paragraph("O notebook foi executado integralmente. Sua última célula executou os 5 testes existentes do projeto e 6 testes dos resultados do notebook, totalizando 11 testes aprovados, sem falhas. As verificações abrangem a base de 50 famílias, as estatísticas, as probabilidades, os limites de classificação, a regressão e a consistência com o módulo Python.", estilos["corpo"]),
+        Paragraph("O notebook foi executado integralmente. Sua última célula executou os 10 testes do projeto e 6 testes dos resultados do notebook, totalizando 16 testes aprovados, sem falhas. As verificações abrangem a base de 50 famílias, as estatísticas, as probabilidades, os limites de classificação, a regressão e a consistência com o módulo Python.", estilos["corpo"]),
+    ])
+    historia.extend([
+        PageBreak(),
+        Paragraph("9. Requisitos de entrega", estilos["h1"]),
+        Paragraph("Um único representante deve enviar diretamente no Portal os três arquivos obrigatórios: o relatório PDF, dados_familias.csv e analise_estatistica.py. Todos contêm os nomes completos e RMs dos seis integrantes. O notebook, modelo.md e integrantes.txt são complementares e não substituem os formatos obrigatórios. Não entregar apenas links nem usar o ZIP como substituto dos arquivos solicitados.", estilos["corpo"]),
+        Paragraph("Todos os integrantes são responsáveis pela entrega final. O envio deve ser concluído antes do prazo registrado no Portal. Após o encerramento, não há novo envio nem substituição. A orientação prevê desconto de 1,0 ponto por item ausente ou não atendido. A data do prazo não consta no trecho recebido.", estilos["corpo"]),
+        Paragraph("Correspondência com a avaliação", estilos["h2"]),
+        Paragraph("Item 01 (2,5 pontos): mediana, probabilidade, código e classificação, na seção 2. Item 02 (2,5 pontos): média, desvio padrão, intervalo, probabilidade, código e classificação, na seção 3. Item 03 (3,0 pontos): regressão, gráfico e coeficientes, nas seções 4 e 5. Item 04 (2,0 pontos): códigos, gráficos e explicações neste PDF, com relação entre estatística e aprendizado de máquina na seção 5 e na conclusão.", estilos["corpo"]),
+        Paragraph("Execução do arquivo Python obrigatório", estilos["h2"]),
+        codigo("# No Colab, envie o .py e o CSV para a aba Arquivos.\n%run analise_estatistica.py --arquivo dados_familias.csv", estilos["codigo"]),
+        Paragraph("O script gera os dois gráficos na pasta resultados e exibe as estatísticas, probabilidades, classificações e métricas. Localmente, execute python analise_estatistica.py --arquivo dados_familias.csv após instalar as bibliotecas usadas. O notebook é uma opção complementar, com a suíte de testes na última célula.", estilos["corpo"]),
+        Paragraph("Referências", estilos["h2"]),
+        Paragraph("ALURA. Estatística com Python: Correlação e Regressão. Base didática de 50 famílias e referência para regressão. Disponível em: https://www.alura.com.br/conteudo/estatistica-correlacao-regressao. Acesso em: 20 set. 2026.", estilos["nota"]),
+        Paragraph("ALURA. Cálculo da probabilidade da distribuição normal com quaisquer valores de média e desvio padrão. Fórum, resposta de João Vitor de Miranda, 14 jan. 2022. Referência para os parâmetros loc (média) e scale (desvio padrão) de scipy.stats.norm. Acesso em: 20 set. 2026.", estilos["nota"]),
     ])
     documento.build(historia)
     from capa_abnt import gerar_capa
@@ -497,7 +496,7 @@ def gerar_relatorio(destino: Path) -> None:
     writer = PdfWriter()
     for pagina in PdfReader(frente).pages:
         writer.add_page(pagina)
-    for pagina in corpo.pages[1:]:
+    for pagina in corpo.pages:
         writer.add_page(pagina)
     with destino.open('wb') as arquivo:
         writer.write(arquivo)

@@ -1,6 +1,19 @@
+# ARTHUR MAZIVIERO FARIA - RM 573928
+# JUN UEHARA - RM 570537
+# FELIPE DE SOUZA GALLO - RM 569680
+# ROBERSON REGUERO LUIZ JUNIOR - RM 573031
+# TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147
+# MATHEUS MARTINS LACERDA - RM 570843
+
 """Análise estatística da Challenge Sprint 3.
 
 Compatível com execução local e com o Google Colab.
+Entrega: este .py, dados_familias.csv e o relatório PDF são obrigatórios.
+Local: python analise_estatistica.py --arquivo dados_familias.csv
+Colab: envie este .py e o CSV e execute %run analise_estatistica.py.
+A coluna autores_trabalho identifica o grupo e não participa dos cálculos.
+Faixas de classificação adotadas: <=5%, <=25%, <=75% e >75%.
+O enunciado não fixa esses limites; conferir a convenção usada em aula.
 """
 
 from __future__ import annotations
@@ -37,7 +50,9 @@ def carregar_dados(caminho: str | Path) -> pd.DataFrame:
     """Carrega e valida a base de famílias."""
     caminho = Path(caminho)
     if not caminho.exists():
-        alternativas = [Path("dados_familias.csv"), Path("/content/dados_familias.csv")]
+        alternativas = [Path("dados_familias.csv"), Path("/content/dados_familias.csv"),
+                        Path(__file__).resolve().parent / 'dados_familias.csv',
+                        Path(__file__).resolve().parents[1] / 'dados/dados_familias.csv']
         caminho = next((item for item in alternativas if item.exists()), caminho)
 
     if not caminho.exists():
@@ -54,6 +69,11 @@ def carregar_dados(caminho: str | Path) -> pd.DataFrame:
         raise ValueError("A base contém valores ausentes nas variáveis analisadas.")
     if len(dados) < 2:
         raise ValueError("A análise requer pelo menos duas observações.")
+    valores = dados[[COLUNA_RENDA, COLUNA_GASTO]]
+    if not all(pd.api.types.is_numeric_dtype(valores[c]) for c in valores):
+        raise ValueError("Renda e gasto devem conter apenas números.")
+    if not np.isfinite(valores.to_numpy(dtype=float)).all():
+        raise ValueError("Renda e gasto devem ser finitos.")
     return dados
 
 
@@ -63,6 +83,9 @@ def calcular_probabilidades(dados: pd.DataFrame) -> dict[str, float | str]:
     media = float(gastos.mean())
     mediana = float(gastos.median())
     desvio_padrao = float(gastos.std(ddof=1))
+
+    if not np.isfinite(desvio_padrao) or desvio_padrao <= 0:
+        raise ValueError("A Normal requer desvio padrão positivo e finito.")
 
     prob_acima_mediana = float(norm.sf(mediana, loc=media, scale=desvio_padrao))
     limite_inferior = media - 2 * desvio_padrao
@@ -89,6 +112,8 @@ def ajustar_regressao(dados: pd.DataFrame) -> tuple[LinearRegression, dict[str, 
     """Ajusta gasto familiar em função da renda familiar."""
     x = dados[[COLUNA_RENDA]]
     y = dados[COLUNA_GASTO]
+    if dados[COLUNA_RENDA].nunique() < 2:
+        raise ValueError("A regressão requer pelo menos duas rendas distintas.")
     modelo = LinearRegression()
     modelo.fit(x, y)
     previsoes = modelo.predict(x)
@@ -228,7 +253,16 @@ def main() -> None:
         help="Pasta em que os gráficos serão salvos",
     )
     argumentos = parser.parse_args()
-    executar(argumentos.arquivo, argumentos.saida)
+    caminho = Path(argumentos.arquivo)
+    if not caminho.exists() and Path('/content').exists():
+        from google.colab import files
+        print('Selecione dados_familias.csv, entregue junto com este código.')
+        enviados = files.upload()
+        csvs = [nome for nome in enviados if nome.lower().endswith('.csv')]
+        if len(csvs) != 1:
+            raise ValueError('Envie exatamente um arquivo CSV.')
+        caminho = Path(csvs[0])
+    executar(caminho, argumentos.saida)
 
 
 if __name__ == "__main__":

@@ -2,11 +2,18 @@
 
 FIAP - Aclimação · Ciências da Computação  
 Disciplina: Estatística com Python · São Paulo, 2026  
-Integrantes e RMs: [integrantes.txt](integrantes.txt)
+## Integrantes
+
+ARTHUR MAZIVIERO FARIA - RM 573928  
+JUN UEHARA - RM 570537  
+FELIPE DE SOUZA GALLO - RM 569680  
+ROBERSON REGUERO LUIZ JUNIOR - RM 573031  
+TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147  
+MATHEUS MARTINS LACERDA - RM 570843
 
 ## 1. Objetivo e base de dados
 
-Analisar o gasto familiar sob a hipótese de Distribuição Normal e ajustar uma Regressão Linear Simples para explicar o gasto em função da renda. A base didática contém 50 famílias, com as variáveis `renda_familiar` e `gasto_familiar`, em reais. `id_familia` identifica cada observação e não participa do modelo.
+Analisar o gasto familiar sob a hipótese de Distribuição Normal e ajustar uma Regressão Linear Simples para explicar o gasto em função da renda. A base didática contém 50 famílias, com as variáveis `renda_familiar` e `gasto_familiar`, em reais. `id_familia` identifica cada observação. `autores_trabalho` registra todos os integrantes e RMs. Ambas são excluídas do modelo. A base é a alternativa didática ajustada permitida pelo enunciado.
 
 A análise utiliza Python, pandas, NumPy, SciPy, scikit-learn e Matplotlib. O notebook está preparado para execução no Google Colab.
 
@@ -97,18 +104,21 @@ O R² indica que cerca de 96,99% da variação dos gastos é explicada linearmen
 
 ## 6. Execução no Google Colab
 
-1. Abra `notebooks/challenge_sprint_3.ipynb` no Google Colab.
-2. Selecione **Ambiente de execução → Executar tudo**.
-3. A primeira célula baixa automaticamente os arquivos necessários, caso não estejam presentes. É necessário acesso à internet.
-4. Confira os resultados e os gráficos. A última célula executa a suíte completa de testes.
+Envie o arquivo obrigatório `analise_estatistica.py` e `dados_familias.csv` para a aba Arquivos do Colab. Execute:
 
-O download está fixado na versão `cccec5561bda4cf37627e7f40ef678263ff4c1b6` do repositório, que contém a base, o módulo estatístico e os cinco testes originais. As seis verificações adicionais estão no próprio notebook.
+```python
+%run analise_estatistica.py --arquivo dados_familias.csv
+```
+
+O script exibe os cálculos e salva os gráficos em `resultados/`. Não depende de arquivos externos ao trabalho nem de acesso ao GitHub.
+
+Como alternativa complementar, abra `challenge_sprint_3.ipynb`, execute todas as células e carregue o CSV quando solicitado. O código e os testes estão incorporados nesse notebook.
 
 ## 7. Validação automatizada
 
-A última célula reúne todos os testes existentes em `tests/` e seis testes do notebook. Verifica a base, as estatísticas descritivas, as probabilidades, os limites das classificações, entradas inválidas, os coeficientes e métricas da regressão e a consistência com o módulo Python.
+O notebook foi executado integralmente em Python local. A última célula executou os 10 testes do projeto e 6 testes dos resultados do notebook: **16 aprovados, sem falhas**. Inclui autoria no CSV, base de 50 registros, entradas inválidas, probabilidades, limites das categorias, regressão e consistência entre notebook e módulo Python.
 
-**Resultado: 11 testes aprovados, sem falhas.** O resultado da execução está salvo na última célula do notebook. A execução é interrompida em caso de falha. A validação foi realizada em ambiente Python local; o notebook inclui preparação para Google Colab.
+A base foi preservada numericamente. A identificação do grupo é metadado e não participa dos cálculos. O notebook foi preparado para Google Colab; a execução de validação foi local.
 
 ## 8. Conclusão
 
@@ -125,3 +135,17 @@ A análise mostra como a estatística descreve a incerteza e sustenta modelos pr
 - Integrantes: `integrantes.txt`.
 - Alura: Cálculo da probabilidade da distribuição normal com quaisquer valores de média e desvio padrão; Estatística com Python: Correlação e Regressão. Referências informadas na versão original do trabalho.
 - Repositório: https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python
+
+## Requisitos de entrega
+
+Um representante deve anexar diretamente no Portal:
+
+- `Relatorio_Sprint_3.pdf`: relatório com nomes e RMs, códigos, gráficos e interpretações.
+- `dados_familias.csv`: base com identificação do grupo na coluna `autores_trabalho`.
+- `analise_estatistica.py`: código completo, com nomes e RMs no cabeçalho.
+
+O `.ipynb`, este `.md` e o `.txt` são complementares. Não substituem PDF, CSV e PY. Não enviar apenas links nem substituir os formatos exigidos por um ZIP.
+
+Todos os integrantes são responsáveis pela entrega. O sistema não aceita envio nem substituição após o prazo. Desconto informado: 1,0 ponto por item ausente ou não atendido.
+
+Conferências pendentes: prazo no Portal, trecho final cortado do enunciado e eventual convenção de classificação definida em aula. Os limites adotados aqui são explícitos, mas não foram especificados no texto recebido.

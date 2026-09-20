@@ -1,3 +1,10 @@
+# ARTHUR MAZIVIERO FARIA - RM 573928
+# JUN UEHARA - RM 570537
+# FELIPE DE SOUZA GALLO - RM 569680
+# ROBERSON REGUERO LUIZ JUNIOR - RM 573031
+# TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147
+# MATHEUS MARTINS LACERDA - RM 570843
+
 def gerar_capa(destino):
     from reportlab.pdfgen import canvas
     from reportlab.lib.pagesizes import A4
@@ -36,8 +43,5 @@ def gerar_capa(destino):
     s=ParagraphStyle('note',fontName='Arial',fontSize=12,leading=14,alignment=4)
     p=Paragraph('Relatório da Sprint 3 apresentado ao curso de Ciências da Computação da Instituição de Ensino Superior FIAP - ACLIMAÇÃO, na disciplina Estatística com Python.',s)
     w,h=p.wrap((right-left)/2,200);p.drawOn(c,mid,H-495-h)
-    url='https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python'
-    c.setFont('Arial',10);c.drawString(left,H-645,'Repositório do projeto:')
-    c.setFont('Arial',9);c.drawString(left,H-662,url);c.linkURL(url,(left,H-666,right,H-651),relative=0)
     foot();c.save()
 
