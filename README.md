@@ -1,24 +1,36 @@
 # Sprint 3 - Modelagem Linear
 
-ARTHUR MAZIVIERO FARIA - RM 573928  
-JUN UEHARA - RM 570537  
-FELIPE DE SOUZA GALLO - RM 569680  
-ROBERSON REGUERO LUIZ JUNIOR - RM 573031  
-TOMMASO CONCEIÇÃO NAGLIATTI - RM 572147  
-MATHEUS MARTINS LACERDA - RM 570843
+Projeto acadêmico de Estatística com Python desenvolvido para analisar dados de renda e gasto de 50 famílias. O trabalho combina Distribuição Normal e Regressão Linear Simples e pode ser executado no Google Colab.
 
-## Entrega obrigatória
+## Integrantes
 
-Anexar diretamente no Portal o PDF em `relatorio/`, `dados/dados_familias.csv` e `src/analise_estatistica.py`. Consultar `REQUISITOS_ENTREGA.md` para a conferência completa. O repositório e seus links não substituem a entrega no Portal.
+- Arthur Maziviero Faria - RM 573928
+- Jun Uehara - RM 570537
+- Felipe de Souza Gallo - RM 569680
+- Roberson Reguero Luiz Junior - RM 573031
+- Tommaso Conceição Nagliatti - RM 572147
+- Matheus Martins Lacerda - RM 570843
 
-## Execução no Colab
+## Conteúdo do projeto
 
-Envie o arquivo `.py` e o CSV e rode `%run analise_estatistica.py --arquivo dados_familias.csv`. O código imprime os resultados e gera dois gráficos em `resultados/`.
+- `relatorio/Relatório Sprint 3 Modelagem Linear.pdf`: relatório científico em formato ABNT;
+- `dados/dados_familias.csv`: base de dados utilizada na análise;
+- `src/analise_estatistica.py`: código completo em Python;
+- `notebooks/challenge_sprint_3.ipynb`: notebook preparado para o Google Colab;
+- `resultados/`: gráficos da Distribuição Normal e da Regressão Linear.
 
-Opcionalmente, abra `notebooks/challenge_sprint_3.ipynb`, selecione Executar tudo e envie o CSV quando solicitado. O notebook contém o código e os testes: não baixa código do GitHub. A última célula registra 16 testes aprovados em execução local.
+## Como executar no Google Colab
 
-## Relatório e metodologia
+Abra o notebook `challenge_sprint_3.ipynb`, selecione **Executar tudo** e envie o arquivo `dados_familias.csv` quando solicitado.
 
-O relatório editável está em `modelo.md`. A base didática ajustada contém 50 famílias; `autores_trabalho` identifica o grupo e não entra nos cálculos. Resultados: 44,36% acima da mediana; 95,45% no intervalo média ± 2s; R² de 0,9699.
+Também é possível enviar `analise_estatistica.py` e `dados_familias.csv` para o Colab e executar:
 
-A hipótese Normal segue a proposta. As faixas de classificação adotadas devem ser conferidas com a convenção usada em aula, pois o enunciado não define limites. Prazo e trecho final das orientações ainda precisam ser conferidos pelo grupo.
+```python
+%run analise_estatistica.py --arquivo dados_familias.csv
+```
+
+## Resultados principais
+
+- Probabilidade de o gasto superar a mediana: 44,36%;
+- Probabilidade no intervalo da média mais ou menos dois desvios padrão: 95,45%;
+- Coeficiente de determinação da regressão: R² = 0,9699.
