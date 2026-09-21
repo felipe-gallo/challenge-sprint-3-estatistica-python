@@ -8,12 +8,8 @@
 """Análise estatística da Challenge Sprint 3.
 
 Compatível com execução local e com o Google Colab.
-Entrega: este .py, dados_familias.csv e o relatório PDF são obrigatórios.
-Local: python analise_estatistica.py --arquivo dados_familias.csv
-Colab: envie este .py e o CSV e execute %run analise_estatistica.py.
 A coluna autores_trabalho identifica o grupo e não participa dos cálculos.
 Faixas de classificação adotadas: <=5%, <=25%, <=75% e >75%.
-O enunciado não fixa esses limites; conferir a convenção usada em aula.
 """
 
 from __future__ import annotations

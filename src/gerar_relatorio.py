@@ -107,8 +107,8 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             "CorpoProjeto",
             parent=estilos_base["BodyText"],
             fontName=fonte,
-            fontSize=10.3,
-            leading=15.2,
+            fontSize=11.5,
+            leading=17.25,
             textColor=COR_TEXTO,
             alignment=TA_JUSTIFY,
             spaceAfter=8,
@@ -137,6 +137,22 @@ def criar_estilos(fonte: str, fonte_negrito: str) -> dict[str, ParagraphStyle]:
             textColor=colors.HexColor("#1F2933"),
             spaceBefore=4,
             spaceAfter=9,
+        ),
+        "codigo_completo": ParagraphStyle(
+            "CodigoCompletoProjeto",
+            parent=estilos_base["Code"],
+            fontName="Courier",
+            fontSize=6.2,
+            leading=8.1,
+            leftIndent=6,
+            rightIndent=6,
+            borderColor=colors.HexColor("#D6E1EA"),
+            borderWidth=0.6,
+            borderPadding=6,
+            backColor=colors.HexColor("#F6F8FA"),
+            textColor=colors.HexColor("#1F2933"),
+            spaceBefore=3,
+            spaceAfter=7,
         ),
         "integrantes_titulo": ParagraphStyle(
             "IntegrantesTitulo",
@@ -175,6 +191,17 @@ def codigo(texto: str, estilo: ParagraphStyle) -> Paragraph:
     return Paragraph(seguro, estilo)
 
 
+def blocos_codigo_arquivo(
+    caminho: Path, estilo: ParagraphStyle, linhas_por_bloco: int = 44
+) -> list[Paragraph]:
+    """Transforma um arquivo-fonte em blocos legíveis e pagináveis no PDF."""
+    linhas = caminho.read_text(encoding="utf-8").splitlines()
+    return [
+        codigo("\n".join(linhas[inicio : inicio + linhas_por_bloco]), estilo)
+        for inicio in range(0, len(linhas), linhas_por_bloco)
+    ]
+
+
 def tabela_resultados(linhas: list[list[str]], fonte: str, fonte_negrito: str) -> Table:
     tabela = Table(linhas, colWidths=[6.6 * cm, 9.0 * cm], repeatRows=1)
     tabela.setStyle(
@@ -200,6 +227,39 @@ def tabela_resultados(linhas: list[list[str]], fonte: str, fonte_negrito: str) -
     return tabela
 
 
+def tabela_dados_familias(dados, fonte: str, fonte_negrito: str) -> Table:
+    """Monta a tabela completa da base de famílias para o apêndice."""
+    linhas = [["Família", "Renda familiar (R$)", "Gasto familiar (R$)"]]
+    linhas.extend(
+        [
+            str(int(registro.id_familia)),
+            f"{int(registro.renda_familiar):,}".replace(",", "."),
+            f"{int(registro.gasto_familiar):,}".replace(",", "."),
+        ]
+        for registro in dados.itertuples(index=False)
+    )
+    tabela = Table(linhas, colWidths=[3.1 * cm, 6.25 * cm, 6.25 * cm], repeatRows=1)
+    tabela.setStyle(
+        TableStyle(
+            [
+                ("BACKGROUND", (0, 0), (-1, 0), COR_PRIMARIA),
+                ("TEXTCOLOR", (0, 0), (-1, 0), colors.white),
+                ("FONTNAME", (0, 0), (-1, 0), fonte_negrito),
+                ("FONTNAME", (0, 1), (-1, -1), fonte),
+                ("FONTSIZE", (0, 0), (-1, -1), 8.3),
+                ("LEADING", (0, 0), (-1, -1), 10.2),
+                ("ALIGN", (0, 0), (-1, -1), "CENTER"),
+                ("VALIGN", (0, 0), (-1, -1), "MIDDLE"),
+                ("ROWBACKGROUNDS", (0, 1), (-1, -1), [colors.white, COR_CLARA]),
+                ("GRID", (0, 0), (-1, -1), 0.35, colors.HexColor("#C9D5DF")),
+                ("TOPPADDING", (0, 0), (-1, -1), 4),
+                ("BOTTOMPADDING", (0, 0), (-1, -1), 4),
+            ]
+        )
+    )
+    return tabela
+
+
 def gerar_relatorio(destino: Path) -> None:
     fonte, fonte_negrito = registrar_fontes()
     estilos = criar_estilos(fonte, fonte_negrito)
@@ -212,9 +272,9 @@ def gerar_relatorio(destino: Path) -> None:
         str(destino),
         pagesize=A4,
         rightMargin=2 * cm,
-        leftMargin=2 * cm,
-        topMargin=1.8 * cm,
-        bottomMargin=1.8 * cm,
+        leftMargin=3 * cm,
+        topMargin=3 * cm,
+        bottomMargin=2 * cm,
         title="Sprint 3 - Modelagem Linear para Aprendizado de Máquina",
         author=", ".join(nome for nome, _ in INTEGRANTES),
         subject="Distribuição Normal e Regressão Linear",
@@ -244,7 +304,7 @@ def gerar_relatorio(destino: Path) -> None:
             Spacer(1, 0.35 * cm),
             Paragraph("Base de dados", estilos["h2"]),
             Paragraph(
-                "A base contém 50 famílias e duas variáveis monetárias: renda familiar e gasto familiar. Os valores reproduzem o conjunto didático apresentado no conteúdo de correlação e regressão da Alura indicado no enunciado. Um identificador foi acrescentado para diferenciar os registros, e a coluna autores_trabalho registra todos os nomes completos e RMs. Essas colunas não entram na análise. Trata-se da alternativa de nova base ajustada permitida no enunciado, sob a hipótese de normalidade exigida para os cálculos.",
+                "A base contém 50 famílias e duas variáveis monetárias: renda familiar e gasto familiar. Um identificador diferencia os registros, enquanto a coluna autores_trabalho documenta os nomes completos e RMs do grupo. Essas duas colunas não participam dos cálculos. A análise considera a hipótese de normalidade para a variável gasto familiar.",
                 estilos["corpo"],
             ),
             tabela_resultados(
@@ -260,7 +320,7 @@ def gerar_relatorio(destino: Path) -> None:
             ),
             Paragraph("Critério de classificação dos eventos", estilos["h2"]),
             Paragraph(
-                "Foram adotadas faixas explícitas: raro para probabilidade de até 5%; pouco provável acima de 5% e até 25%; provável acima de 25% e até 75%; e quase certo acima de 75%. O enunciado não define os limites numéricos dessas categorias; as faixas são uma convenção explícita adotada neste trabalho.",
+                "Foram adotadas faixas explícitas: raro para probabilidade de até 5%; pouco provável acima de 5% e até 25%; provável acima de 25% e até 75%; e quase certo acima de 75%. Essa convenção foi mantida em todas as classificações para assegurar consistência metodológica.",
                 estilos["corpo"],
             ),
             PageBreak(),
@@ -272,7 +332,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("2. Probabilidade acima da mediana", estilos["h1"]),
             Paragraph(
-                "A mediana divide os dados observados em duas metades. Como o exercício solicita uma probabilidade baseada em uma Distribuição Normal parametrizada com a média e o desvio padrão amostrais, calculamos a área à direita da mediana amostral usando a função de sobrevivência da Normal.",
+                "A mediana divide os dados observados em duas metades. A probabilidade foi estimada por uma Distribuição Normal parametrizada com a média e o desvio padrão amostrais, calculando-se a área à direita da mediana por meio da função de sobrevivência.",
                 estilos["corpo"],
             ),
             Paragraph("Código utilizado", estilos["h2"]),
@@ -348,7 +408,7 @@ def gerar_relatorio(destino: Path) -> None:
                 estilos["corpo"],
             ),
             Paragraph(
-                "A faixa sombreada em azul na Figura 1 representa esse intervalo. A área laranja evidencia, ao mesmo tempo, o evento acima da mediana usado no primeiro exercício.",
+                "A faixa sombreada em azul na Figura 1 representa esse intervalo. A área laranja evidencia, ao mesmo tempo, o evento acima da mediana analisado anteriormente.",
                 estilos["corpo"],
             ),
             PageBreak(),
@@ -390,7 +450,7 @@ def gerar_relatorio(destino: Path) -> None:
                 f"A reta estimada é: <b>gasto = {regressao['intercepto']:.4f} + {regressao['coeficiente_angular']:.4f} × renda</b>.",
                 estilos["corpo"],
             ),
-            Image(str(RAIZ / "resultados" / "regressao_linear.png"), width=16.3 * cm, height=9.45 * cm),
+            Image(str(RAIZ / "resultados" / "regressao_linear.png"), width=15.6 * cm, height=9.05 * cm),
             Paragraph("Figura 2 - Observações e reta de Regressão Linear ajustada.", estilos["nota"]),
             PageBreak(),
         ]
@@ -433,7 +493,7 @@ def gerar_relatorio(destino: Path) -> None:
         [
             Paragraph("6. Execução no Google Colab", estilos["h1"]),
             Paragraph(
-                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais. Para executar a análise no Colab, abra o notebook e selecione Executar tudo. Quando solicitado, envie o CSV entregue com o trabalho. O código e os testes estão incorporados no notebook e não dependem do GitHub. A última célula executa a suíte completa de testes do projeto e as verificações dos resultados do notebook. O ambiente do Colab já inclui as bibliotecas principais utilizadas pelo trabalho.",
+                "O notebook challenge_sprint_3.ipynb foi organizado em células sequenciais e reúne a leitura da base, os cálculos, os gráficos e os testes automatizados. A execução no Google Colab utiliza o arquivo dados_familias.csv e não depende de carregamento de código externo. A última célula verifica a consistência dos resultados obtidos.",
                 estilos["corpo"],
             ),
             Paragraph("Bibliotecas", estilos["h2"]),
@@ -446,14 +506,14 @@ def gerar_relatorio(destino: Path) -> None:
                 "from sklearn.metrics import mean_squared_error, r2_score",
                 estilos["codigo"],
             ),
-            Paragraph("Arquivos da entrega", estilos["h2"]),
+            Paragraph("Arquivos do projeto", estilos["h2"]),
             tabela_resultados(
                 [
                     ["Arquivo", "Finalidade"],
-                    ["dados_familias.csv", "Base de dados obrigatória em formato CSV."],
-                    ["analise_estatistica.py", "Código Python obrigatório com a análise completa."],
+                    ["dados_familias.csv", "Base de dados utilizada nos cálculos."],
+                    ["analise_estatistica.py", "Código Python da análise completa."],
                     
-                    ["Relatorio_Sprint_3.pdf", "Relatório com códigos, gráficos e interpretações."],
+                    ["Relatório Sprint 3 Modelagem Linear.pdf", "Relatório com códigos, gráficos e interpretações."],
                 ],
                 fonte,
                 fonte_negrito,
@@ -461,7 +521,7 @@ def gerar_relatorio(destino: Path) -> None:
             Spacer(1, 0.5 * cm),
             Paragraph("7. Conclusão", estilos["h1"]),
             Paragraph(
-                "A análise respondeu aos três itens quantitativos do desafio. A chance de o gasto superar a mediana foi classificada como provável; a chance de permanecer a até dois desvios padrão da média foi classificada como quase certa; e a renda explicou aproximadamente 96,99% da variação dos gastos no modelo linear. Os resultados mostram uma aplicação integrada de probabilidade, estatística descritiva e aprendizado supervisionado.",
+                "A análise integrou três etapas quantitativas. A chance de o gasto superar a mediana foi classificada como provável; a chance de permanecer a até dois desvios padrão da média foi classificada como quase certa; e a renda explicou aproximadamente 96,99% da variação dos gastos no modelo linear. Os resultados demonstram uma aplicação conjunta de probabilidade, estatística descritiva e aprendizado supervisionado.",
                 estilos["corpo"],
             ),
         ]
@@ -473,17 +533,30 @@ def gerar_relatorio(destino: Path) -> None:
     ])
     historia.extend([
         PageBreak(),
-        Paragraph("9. Requisitos de entrega", estilos["h1"]),
-        Paragraph("Um único representante deve enviar diretamente no Portal os três arquivos obrigatórios: o relatório PDF, dados_familias.csv e analise_estatistica.py. Todos contêm os nomes completos e RMs dos seis integrantes. O notebook, modelo.md e integrantes.txt são complementares e não substituem os formatos obrigatórios. Não entregar apenas links nem usar o ZIP como substituto dos arquivos solicitados.", estilos["corpo"]),
-        Paragraph("Todos os integrantes são responsáveis pela entrega final. O envio deve ser concluído antes do prazo registrado no Portal. Após o encerramento, não há novo envio nem substituição. A orientação prevê desconto de 1,0 ponto por item ausente ou não atendido. A data do prazo não consta no trecho recebido.", estilos["corpo"]),
-        Paragraph("Correspondência com a avaliação", estilos["h2"]),
-        Paragraph("Item 01 (2,5 pontos): mediana, probabilidade, código e classificação, na seção 2. Item 02 (2,5 pontos): média, desvio padrão, intervalo, probabilidade, código e classificação, na seção 3. Item 03 (3,0 pontos): regressão, gráfico e coeficientes, nas seções 4 e 5. Item 04 (2,0 pontos): códigos, gráficos e explicações neste PDF, com relação entre estatística e aprendizado de máquina na seção 5 e na conclusão.", estilos["corpo"]),
-        Paragraph("Execução do arquivo Python obrigatório", estilos["h2"]),
-        codigo("# No Colab, envie o .py e o CSV para a aba Arquivos.\n%run analise_estatistica.py --arquivo dados_familias.csv", estilos["codigo"]),
-        Paragraph("O script gera os dois gráficos na pasta resultados e exibe as estatísticas, probabilidades, classificações e métricas. Localmente, execute python analise_estatistica.py --arquivo dados_familias.csv após instalar as bibliotecas usadas. O notebook é uma opção complementar, com a suíte de testes na última célula.", estilos["corpo"]),
-        Paragraph("Referências", estilos["h2"]),
-        Paragraph("ALURA. Estatística com Python: Correlação e Regressão. Base didática de 50 famílias e referência para regressão. Disponível em: https://www.alura.com.br/conteudo/estatistica-correlacao-regressao. Acesso em: 20 set. 2026.", estilos["nota"]),
-        Paragraph("ALURA. Cálculo da probabilidade da distribuição normal com quaisquer valores de média e desvio padrão. Fórum, resposta de João Vitor de Miranda, 14 jan. 2022. Referência para os parâmetros loc (média) e scale (desvio padrão) de scipy.stats.norm. Acesso em: 20 set. 2026.", estilos["nota"]),
+        Paragraph("Apêndice A - Repositório e código-fonte", estilos["h1"]),
+        Paragraph(
+            "O repositório público reúne os arquivos utilizados no desenvolvimento da análise estatística e permite consultar o histórico técnico do projeto.",
+            estilos["corpo"],
+        ),
+        Paragraph(
+            '<link href="https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python" color="#174A7E">https://github.com/felipe-gallo/challenge-sprint-3-estatistica-python</link>',
+            estilos["corpo"],
+        ),
+        Paragraph("Código completo de analise_estatistica.py", estilos["h2"]),
+        Paragraph(
+            "O código a seguir realiza a leitura e a validação dos dados, os cálculos probabilísticos, a classificação dos eventos, o ajuste da Regressão Linear e a geração dos gráficos.",
+            estilos["corpo"],
+        ),
+        *blocos_codigo_arquivo(
+            RAIZ / "src" / "analise_estatistica.py", estilos["codigo_completo"]
+        ),
+        PageBreak(),
+        Paragraph("Apêndice B - Base de dados das famílias", estilos["h1"]),
+        Paragraph(
+            "A tabela apresenta os 50 registros utilizados na análise. Cada observação contém o identificador da família, a renda familiar e o gasto familiar. A coluna de autoria presente no arquivo CSV possui finalidade documental e não participa dos cálculos estatísticos.",
+            estilos["corpo"],
+        ),
+        tabela_dados_familias(dados, fonte, fonte_negrito),
     ])
     documento.build(historia)
     from capa_abnt import gerar_capa
